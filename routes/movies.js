@@ -1,4 +1,5 @@
 const express = require("express");
+const auth = require("../middleware/auth");
 const router = express.Router();
 const { Movie } = require("../models/movie");
 const { Genre } = require("../models/genre");
@@ -26,7 +27,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
     const genre = await Genre.findById(req.body.genreId);
     if (!genre) return res.status(400).send("Invalid genre.");

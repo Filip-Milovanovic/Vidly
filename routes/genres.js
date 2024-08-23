@@ -1,3 +1,5 @@
+const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 const express = require("express");
 const router = express.Router();
 const { Genre, getGenre, getGenres, createGenre } = require("../models/genre");
@@ -30,7 +32,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Insert one
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
     const result = await createGenre(req.body.name);
     if (!result) res.status(400).send("Something went wrong...");
@@ -62,7 +64,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Delete one
-router.delete("/:id", async (req, res) => {
+router.delete("/:id",[auth, admin], async (req, res) => {
   try {
     const id = req.params.id;
     const result = await Genre.findByIdAndDelete(id);
