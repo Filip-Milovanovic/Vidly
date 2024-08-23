@@ -1,4 +1,5 @@
 const express = require("express");
+const auth = require("../middleware/auth");
 const { Rental } = require("../models/rental");
 const { Movie } = require("../models/movie");
 const { Customer } = require("../models/customer");
@@ -26,7 +27,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
     let movie = await Movie.findById(req.body.movieId);
     let customer = await Customer.findById(req.body.customerId);

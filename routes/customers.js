@@ -1,4 +1,5 @@
 const express = require("express");
+const auth = require("../middleware/auth");
 const { Customer } = require("../models/customer");
 const router = express.Router();
 
@@ -19,7 +20,7 @@ router.get("/:id", async (req, res) => {
   res.status(200).send(customer);
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
     const customer = new Customer({
       name: req.body.name,
